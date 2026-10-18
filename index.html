@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A Message of Hope</title>
+  <title>Family Support Photos</title>
 
   <style>
     * { box-sizing: border-box; }
@@ -11,318 +11,55 @@
     body {
       margin: 0;
       min-height: 100vh;
-      overflow-x: hidden;
-      color: #fff;
+      padding: 30px 16px;
+      color: white;
       font-family: Arial, sans-serif;
       text-align: center;
-      background: #111;
+      background: linear-gradient(145deg, #191919, #484442, #1c1b1b);
     }
 
-    header, main, footer {
-      position: relative;
-      z-index: 1;
-    }
+    h1 { text-shadow: 0 3px 15px #000; }
 
-    header { padding: 35px 18px 15px; }
-
-    h1 {
-      margin: 0 0 10px;
-      color: #fff;
-      font-size: clamp(2rem, 8vw, 3.5rem);
-      text-shadow: 0 0 14px #c91d26;
-    }
-
-    .subtitle {
-      margin: 0 auto;
-      color: #ddd;
-      line-height: 1.5;
-    }
-
-    .color-bar {
-      width: 140px;
-      height: 7px;
-      margin: 20px auto;
-      border-radius: 10px;
-      background: linear-gradient(to right, #078930 50%, #ce1126 50%);
-    }
-
-    nav {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      padding: 8px;
-    }
-
-    nav a {
-      padding: 10px 16px;
-      border: 1px solid #ffffff55;
-      border-radius: 22px;
+    a {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 18px;
+      border-radius: 24px;
       color: white;
-      background: #202020;
+      background: #c91d26;
       text-decoration: none;
     }
 
-    nav a:hover { background: #078930; }
-
-    .card {
-      width: min(90%, 430px);
-      margin: 20px auto 35px;
-      padding: 20px;
-      border: 1px solid #ffffff40;
-      border-radius: 22px;
-      background: #252525;
-      box-shadow: 0 10px 35px #0009;
-    }
-
-    .photo-button {
-      display: block;
-      width: 100%;
-      padding: 0;
-      overflow: hidden;
-      border: 3px solid #078930;
-      border-radius: 18px;
-      background: #111;
-      cursor: pointer;
-    }
-
-    #portrait {
-      display: block;
-      width: 100%;
-      height: 390px;
-      object-fit: cover;
-    }
-
-    #photoFallback {
-      display: none;
-      height: 390px;
-      place-items: center;
-      padding: 20px;
-      color: white;
-      font-weight: bold;
-      background: linear-gradient(145deg, #078930, #171717 55%, #ce1126);
-    }
-
-    .tap-note { color: #eee; margin: 15px 0 5px; }
-
-    #musicMessage {
-      min-height: 22px;
-      margin: 8px 0;
-      color: #a9e4b4;
-    }
-
-    /* The YouTube player stays out of view; the picture starts playback. */
-    #musicPlayer {
-      position: fixed;
-      left: -1000px;
-      top: 0;
-      width: 200px;
-      height: 200px;
-      overflow: hidden;
-    }
-
-    #musicPlayer iframe {
-      width: 200px;
-      height: 200px;
-      border: 0;
-    }
-
-    #gallery {
-      width: min(94%, 1000px);
-      margin: 25px auto 45px;
-      scroll-margin-top: 20px;
-    }
-
-    #gallery h2 {
-      font-size: clamp(1.7rem, 6vw, 2.5rem);
-      text-shadow: 0 0 12px #c91d26;
-    }
-
-    .gallery-grid {
+    .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      width: min(100%, 1000px);
+      margin: 28px auto;
     }
 
-    .gallery-grid button {
-      padding: 0;
-      overflow: hidden;
-      border: 2px solid #078930;
-      border-radius: 14px;
-      background: #222;
-      cursor: pointer;
-    }
-
-    .gallery-grid img {
-      display: block;
+    .photo-grid img {
       width: 100%;
-      height: 210px;
+      height: 240px;
       object-fit: cover;
-      transition: transform 0.25s ease;
+      border: 2px solid #c91d26;
+      border-radius: 14px;
+      background: #292929;
     }
 
-    .gallery-grid button:hover img { transform: scale(1.04); }
-
-    #lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 10;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      background: #000e;
-    }
-
-    #lightbox.show { display: flex; }
-
-    #lightbox img {
-      max-width: 95vw;
-      max-height: 85vh;
-      border: 3px solid #078930;
-      border-radius: 12px;
-    }
-
-    #closeLightbox {
-      position: absolute;
-      top: 12px;
-      right: 20px;
-      border: 0;
-      color: white;
-      background: transparent;
-      font-size: 40px;
-      cursor: pointer;
-    }
-
-    .floating-word {
-      position: fixed;
-      z-index: 0;
-      bottom: -60px;
-      color: #ffffff32;
-      font-size: clamp(18px, 4vw, 30px);
-      font-weight: bold;
-      white-space: nowrap;
-      pointer-events: none;
-      animation: floatUp 14s linear infinite;
-    }
-
-    .word-one { left: 8%; }
-    .word-two { left: 55%; animation-delay: 4s; color: #ef555544; }
-    .word-three { left: 25%; animation-delay: 8s; color: #54cf7050; }
-    .word-four { left: 72%; animation-delay: 2s; color: #ef555544; }
-    .word-five { left: 40%; animation-delay: 6s; }
-
-    @keyframes floatUp {
-      from { transform: translateY(0); }
-      to { transform: translateY(-120vh); }
-    }
-
-    footer { padding: 20px 15px 35px; color: #aaa; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .floating-word { animation: none; }
-    }
+    .note { color: #ddd; }
   </style>
 </head>
 
 <body>
-  <div class="floating-word word-one">Faith • Hope • Strength</div>
-  <div class="floating-word word-two">Keep moving forward</div>
-  <div class="floating-word word-three">You are not alone</div>
-  <div class="floating-word word-four">Love • Encouragement</div>
-  <div class="floating-word word-five">Believe in brighter days</div>
+  <h1>Family Support Photos</h1>
+  <p class="note">Add your pictures in the photo grid below.</p>
+  <a href="index.html">Back to Home</a>
 
-  <header id="home">
-    <h1>A Message of Hope</h1>
-    <p class="subtitle">Faith, strength, and positive energy</p>
-    <div class="color-bar"></div>
-  </header>
-
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#gallery">View Photos</a>
-  </nav>
-
-  <main>
-    <section class="card">
-      <button class="photo-button" id="photoButton" type="button"
-              aria-label="Click the picture to play music">
-        <img id="portrait" src="portrait.jpg" alt="Main portrait">
-        <span id="photoFallback">Add your main photo as portrait.jpg</span>
-      </button>
-
-      <p class="tap-note">Click the picture to play the music</p>
-      <p id="musicMessage">Tap the picture to start the beat.</p>
-    </section>
-
-    <section id="gallery">
-      <h2>Photo Gallery</h2>
-      <p class="subtitle">Tap any picture to see it larger.</p>
-
-      <div class="gallery-grid">
-        <button type="button"><img src="714.png" alt="Gallery photo 1"></button>
-        <button type="button"><img src="713.jpg" alt="Gallery photo 2"></button>
-        <button type="button"><img src="712.jpg" alt="Gallery photo 3"></button>
-        <button type="button"><img src="710.png" alt="Gallery photo 4"></button>
-        <button type="button"><img src="707.jpg" alt="Gallery photo 5"></button>
-        <button type="button"><img src="706.jpg" alt="Gallery photo 6"></button>
-        <button type="button"><img src="705.jpg" alt="Gallery photo 7"></button>
-        <button type="button"><img src="704.png" alt="Gallery photo 8"></button>
-        <button type="button"><img src="703.jpg" alt="Gallery photo 9"></button>
-      </div>
-    </section>
-  </main>
-
-  <div id="lightbox" role="dialog" aria-label="Enlarged photo">
-    <button id="closeLightbox" type="button" aria-label="Close photo">×</button>
-    <img id="largePhoto" alt="Enlarged photo">
+  <div class="photo-grid">
+    <!-- Add each picture here, replacing the filename with your image name:
+    <img src="your-photo.jpg" alt="Family support photo">
+    -->
   </div>
-
-  <div id="musicPlayer" aria-hidden="true"></div>
-
-  <footer>Stay encouraged. Keep moving forward.</footer>
-
-  <script>
-    const portrait = document.getElementById("portrait");
-    const photoFallback = document.getElementById("photoFallback");
-    const musicPlayer = document.getElementById("musicPlayer");
-    let musicStarted = false;
-
-    portrait.onerror = function () {
-      portrait.style.display = "none";
-      photoFallback.style.display = "grid";
-    };
-
-    document.getElementById("photoButton").addEventListener("click", function () {
-      if (!musicStarted) {
-        musicStarted = true;
-        musicPlayer.innerHTML =
-          '<iframe src="https://www.youtube-nocookie.com/embed/YPsVWworsbc?autoplay=1&playsinline=1&controls=0" ' +
-          'title="Background music" allow="autoplay; encrypted-media" tabindex="-1"></iframe>';
-      }
-
-      document.getElementById("musicMessage").textContent =
-        "Your music is playing in the background.";
-    });
-
-    document.querySelectorAll(".gallery-grid button").forEach(function (button) {
-      button.addEventListener("click", function () {
-        const image = button.querySelector("img");
-        document.getElementById("largePhoto").src = image.src;
-        document.getElementById("lightbox").classList.add("show");
-      });
-    });
-
-    function closePhoto() {
-      document.getElementById("lightbox").classList.remove("show");
-    }
-
-    document.getElementById("closeLightbox").addEventListener("click", closePhoto);
-    document.getElementById("lightbox").addEventListener("click", function (event) {
-      if (event.target.id === "lightbox") closePhoto();
-    });
-  </script>
 </body>
 </html>
