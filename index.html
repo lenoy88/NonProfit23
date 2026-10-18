@@ -18,12 +18,9 @@
       background: linear-gradient(145deg, #191919, #484442, #1c1b1b);
     }
 
-    header, main, footer {
-      position: relative;
-      z-index: 1;
-    }
+    header, main, footer { position: relative; z-index: 1; }
 
-    header { padding: 38px 18px 12px; }
+    header { padding: 30px 16px 12px; }
 
     h1 {
       margin: 0 0 10px;
@@ -41,17 +38,39 @@
     .red-line {
       width: 125px;
       height: 6px;
-      margin: 20px auto;
+      margin: 18px auto;
       border-radius: 8px;
       background: #c91d26;
     }
 
+    nav {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 10px;
+    }
+
+    nav a {
+      padding: 10px 16px;
+      color: white;
+      text-decoration: none;
+      border: 1px solid #ffffff66;
+      border-radius: 22px;
+      background: #222;
+    }
+
+    nav a:hover { background: #c91d26; }
+
     .logo-card {
       width: min(88vw, 430px);
-      margin: 20px auto;
+      margin: 18px auto 30px;
       padding: 16px;
       border: 2px solid #d51f28;
       border-radius: 25px;
+      color: #222;
       background: #f7f4ef;
       box-shadow: 0 12px 36px #0009;
     }
@@ -69,7 +88,7 @@
       cursor: pointer;
     }
 
-    /* Crops the Family Support logo from the attached phone screenshot */
+    /* Crops the logo area from the attached phone screenshot */
     .logo-button img {
       position: absolute;
       top: -71.2%;
@@ -84,35 +103,102 @@
       position: absolute;
       inset: 0;
       place-items: center;
-      padding: 20px;
       color: #111;
       font-size: clamp(1.5rem, 6vw, 2.5rem);
       font-weight: 900;
       line-height: 1.1;
     }
 
-    .tap-message {
-      margin: 14px 0 4px;
-      color: #222;
-      font-weight: bold;
-    }
+    .tap-message { margin: 14px 0 5px; font-weight: bold; }
 
     #musicMessage {
       min-height: 22px;
-      color: #333;
+      margin: 6px 0 0;
+      color: #444;
       font-size: 0.95rem;
     }
 
+    /* Hidden YouTube embed: audio starts after the logo is clicked */
     #musicPlayer {
-      display: none;
-      margin-top: 14px;
+      position: fixed;
+      left: -1000px;
+      top: 0;
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
     }
 
     #musicPlayer iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
+      width: 200px;
+      height: 200px;
       border: 0;
+    }
+
+    #gallery {
+      width: min(94%, 1000px);
+      margin: 25px auto 45px;
+      scroll-margin-top: 20px;
+    }
+
+    #gallery h2 {
+      font-size: clamp(1.7rem, 6vw, 2.5rem);
+      text-shadow: 0 2px 12px #000;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 12px;
+    }
+
+    .gallery-grid button {
+      padding: 0;
+      overflow: hidden;
+      border: 2px solid #c91d26;
+      border-radius: 14px;
+      background: #222;
+      cursor: pointer;
+    }
+
+    .gallery-grid img {
+      display: block;
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      transition: transform 0.25s ease;
+    }
+
+    .gallery-grid button:hover img { transform: scale(1.04); }
+
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: #000e;
+    }
+
+    #lightbox.show { display: flex; }
+
+    #lightbox img {
+      max-width: 95vw;
+      max-height: 85vh;
+      border: 3px solid white;
       border-radius: 12px;
+    }
+
+    #closeLightbox {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      border: 0;
+      color: white;
+      background: transparent;
+      font-size: 38px;
+      cursor: pointer;
     }
 
     .floating-word {
@@ -127,7 +213,7 @@
       animation: floatUp 14s linear infinite;
     }
 
-    .word-one { left: 8%; animation-delay: 0s; }
+    .word-one { left: 8%; }
     .word-two { left: 55%; animation-delay: 4s; color: #ef555544; }
     .word-three { left: 25%; animation-delay: 8s; }
     .word-four { left: 72%; animation-delay: 2s; color: #ef555544; }
@@ -138,12 +224,8 @@
       to { transform: translateY(-120vh); }
     }
 
-    footer {
-      padding: 20px 15px 100px;
-      color: #eee;
-    }
+    footer { padding: 20px 15px 100px; color: #eee; }
 
-    /* Chat button and chat window */
     #chatButton {
       position: fixed;
       right: 18px;
@@ -152,7 +234,7 @@
       padding: 14px 20px;
       border: 0;
       border-radius: 30px;
-      color: #fff;
+      color: white;
       background: #c91d26;
       font-size: 16px;
       font-weight: bold;
@@ -181,14 +263,14 @@
       align-items: center;
       justify-content: space-between;
       padding: 14px;
-      color: #fff;
+      color: white;
       background: #c91d26;
       font-weight: bold;
     }
 
     #closeChat {
       border: 0;
-      color: #fff;
+      color: white;
       background: transparent;
       font-size: 22px;
       cursor: pointer;
@@ -211,14 +293,14 @@
     }
 
     .bot {
-      color: #fff;
+      color: white;
       background: #414141;
       border-bottom-left-radius: 4px;
     }
 
     .visitor {
       margin-left: auto;
-      color: #fff;
+      color: white;
       background: #b91620;
       border-bottom-right-radius: 4px;
     }
@@ -236,7 +318,7 @@
       padding: 10px;
       border: 1px solid #777;
       border-radius: 20px;
-      color: #fff;
+      color: white;
       background: #303030;
       font-size: 14px;
     }
@@ -245,7 +327,7 @@
       padding: 0 14px;
       border: 0;
       border-radius: 20px;
-      color: #fff;
+      color: white;
       background: #c91d26;
       font-weight: bold;
       cursor: pointer;
@@ -264,7 +346,7 @@
   <div class="floating-word word-four">Love • Encouragement</div>
   <div class="floating-word word-five">Together we are stronger</div>
 
-  <header>
+  <header id="home">
     <h1>Family Support System</h1>
     <p class="subtitle">
       A place for families to find encouragement, connection, and support.
@@ -272,21 +354,48 @@
     <div class="red-line"></div>
   </header>
 
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#gallery">View Photos</a>
+  </nav>
+
   <main>
     <section class="logo-card">
       <button class="logo-button" id="logoButton" type="button"
-              aria-label="Tap the Family Support System logo to play music">
+              aria-label="Click the logo to play music">
         <img id="logoImage" src="682.jpg" alt="Family Support System logo">
         <span class="logo-fallback" id="logoFallback">
           FAMILY<br>SUPPORT<br>SYSTEM
         </span>
       </button>
+      <p class="tap-message">Click the logo to play the music</p>
+      <p id="musicMessage">Tap the logo to start the beat.</p>
+    </section>
 
-      <p class="tap-message">Tap the logo to play the music</p>
-      <p id="musicMessage">The beat will start when you tap the logo.</p>
-      <div id="musicPlayer"></div>
+    <section id="gallery">
+      <h2>Family Support Photos</h2>
+      <p class="subtitle">Tap a photo to view it larger.</p>
+
+      <div class="gallery-grid">
+        <button type="button"><img src="714.png" alt="Family support photo 1"></button>
+        <button type="button"><img src="713.jpg" alt="Family support photo 2"></button>
+        <button type="button"><img src="712.jpg" alt="Family support photo 3"></button>
+        <button type="button"><img src="710.png" alt="Family support photo 4"></button>
+        <button type="button"><img src="707.jpg" alt="Family support photo 5"></button>
+        <button type="button"><img src="706.jpg" alt="Family support photo 6"></button>
+        <button type="button"><img src="705.jpg" alt="Family support photo 7"></button>
+        <button type="button"><img src="704.png" alt="Family support photo 8"></button>
+        <button type="button"><img src="703.jpg" alt="Family support photo 9"></button>
+      </div>
     </section>
   </main>
+
+  <div id="lightbox" role="dialog" aria-label="Large photo view">
+    <button id="closeLightbox" type="button" aria-label="Close photo">×</button>
+    <img id="largePhoto" alt="Enlarged family support photo">
+  </div>
+
+  <div id="musicPlayer" aria-hidden="true"></div>
 
   <footer>Families grow stronger when we support one another.</footer>
 
@@ -297,13 +406,11 @@
       <span>Family Support Chat</span>
       <button id="closeChat" type="button" aria-label="Close chat">×</button>
     </div>
-
     <div id="chatMessages" aria-live="polite">
       <div class="bubble bot">
         Welcome! You can ask about family support, volunteering, or donations.
       </div>
     </div>
-
     <form id="chatForm">
       <input id="chatInput" type="text" placeholder="Type a message..."
              aria-label="Type a message" required>
@@ -315,6 +422,7 @@
     const logoImage = document.getElementById("logoImage");
     const logoFallback = document.getElementById("logoFallback");
     const musicPlayer = document.getElementById("musicPlayer");
+    let musicStarted = false;
 
     logoImage.onerror = function () {
       logoImage.style.display = "none";
@@ -322,12 +430,32 @@
     };
 
     document.getElementById("logoButton").addEventListener("click", function () {
-      document.getElementById("musicMessage").textContent = "Your beat is playing.";
-      musicPlayer.style.display = "block";
-      musicPlayer.innerHTML =
-        '<iframe src="https://www.youtube-nocookie.com/embed/YPsVWworsbc?autoplay=1&playsinline=1" ' +
-        'title="Family Support music" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+      if (!musicStarted) {
+        musicStarted = true;
+        musicPlayer.innerHTML =
+          '<iframe src="https://www.youtube-nocookie.com/embed/YPsVWworsbc?autoplay=1&playsinline=1&controls=0" ' +
+          'title="Background music" allow="autoplay; encrypted-media" tabindex="-1"></iframe>';
+      }
+      document.getElementById("musicMessage").textContent =
+        "Your beat is playing in the background.";
     });
+
+    document.querySelectorAll(".gallery-grid button").forEach(function (button) {
+      button.addEventListener("click", function () {
+        const image = button.querySelector("img");
+        document.getElementById("largePhoto").src = image.src;
+        document.getElementById("lightbox").classList.add("show");
+      });
+    });
+
+    document.getElementById("closeLightbox").addEventListener("click", closePhoto);
+    document.getElementById("lightbox").addEventListener("click", function (event) {
+      if (event.target.id === "lightbox") closePhoto();
+    });
+
+    function closePhoto() {
+      document.getElementById("lightbox").classList.remove("show");
+    }
 
     const chatButton = document.getElementById("chatButton");
     const chatBox = document.getElementById("chatBox");
@@ -357,18 +485,18 @@
       const text = message.toLowerCase();
 
       if (text.includes("volunteer")) {
-        return "Thank you for wanting to volunteer! Please contact the Family Support System team about current opportunities.";
+        return "Thank you for wanting to volunteer! Please contact the Family Support System team about opportunities.";
       }
 
       if (text.includes("donat")) {
-        return "Thank you for considering a donation. Please contact the Family Support System team for donation details.";
+        return "Thank you for considering a donation. Please contact the Family Support System team for details.";
       }
 
       if (text.includes("help") || text.includes("support")) {
-        return "We’re glad you reached out. Please contact the Family Support System team so they can connect you with support.";
+        return "We’re glad you reached out. Please contact the Family Support System team for support.";
       }
 
-      return "Thanks for your message. This is an automatic chat demo; it does not send messages to the team yet.";
+      return "Thanks for your message. This is an automatic chat demo and does not send messages to the team yet.";
     }
 
     document.getElementById("chatForm").addEventListener("submit", function (event) {
