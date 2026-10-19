@@ -178,6 +178,96 @@
       object-fit: cover;
     }
 
+    .chat-box {
+      width: min(100%, 620px);
+      margin: 26px auto;
+      padding: 18px;
+      text-align: left;
+      color: #fff;
+      background: #292929;
+      border: 1px solid #ef3939;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px #0005;
+    }
+
+    .chat-box h3 {
+      margin: 0 0 6px;
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    .chat-intro {
+      margin: 0 0 14px;
+      color: #dedede;
+      font-size: .92rem;
+    }
+
+    .chat-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      max-height: 190px;
+      overflow-y: auto;
+      padding: 12px;
+      background: #1d1d1d;
+      border-radius: 10px;
+    }
+
+    .chat-message {
+      max-width: 88%;
+      padding: 9px 12px;
+      border-radius: 12px;
+      line-height: 1.4;
+      font-size: .92rem;
+      overflow-wrap: anywhere;
+    }
+
+    .chat-message.bot {
+      align-self: flex-start;
+      background: #414141;
+      color: #fff;
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      background: #ef3939;
+      color: #fff;
+    }
+
+    .chat-form {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chat-form input {
+      flex: 1;
+      min-width: 0;
+      padding: 11px 12px;
+      color: #222;
+      background: #fff;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    .chat-form button {
+      padding: 10px 16px;
+      color: #fff;
+      background: #ef3939;
+      border: 0;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .chat-note {
+      display: block;
+      margin-top: 9px;
+      color: #c5c5c5;
+      font-size: .78rem;
+    }
+
     .music-note {
       min-height: 24px;
       margin: 22px 0 0;
@@ -233,10 +323,12 @@
 
     @media (max-width: 540px) {
       .gallery { padding-top: 32px; }
+
       .photo-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 11px;
       }
+
       .photo-card { border-radius: 10px; }
     }
   </style>
@@ -269,12 +361,33 @@
       <p class="tap-note">Tap this picture to see all the photos and hear the music</p>
     </section>
 
-    <!-- Second screen: all photos appear after the first picture is clicked. -->
+    <!-- Second screen: photos and chat appear after the first picture is clicked. -->
     <section class="screen gallery hidden" id="gallery">
       <h2>Family Support Photos</h2>
       <p class="subtitle">Add your pictures to the photo grid below.</p>
       <button class="home-button" id="backHome" type="button">Back to Home</button>
       <p class="hint">Your photos are below. Tap a picture to view it larger.</p>
+
+      <section class="chat-box" aria-label="Family support nonprofit information chat">
+        <h3>Family Support Nonprofit Chat</h3>
+        <p class="chat-intro">Ask about our mission, volunteering, or donations.</p>
+        <div class="chat-messages" id="chatMessages" aria-live="polite">
+          <div class="chat-message bot">Welcome! How can we help you support families today?</div>
+        </div>
+        <form class="chat-form" id="chatForm">
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="Type your question..."
+            aria-label="Type your question"
+            required
+          >
+          <button type="submit">Send</button>
+        </form>
+        <small class="chat-note">
+          This is an automated demo chat; messages do not reach nonprofit staff.
+        </small>
+      </section>
 
       <div class="photo-grid" aria-label="Family support photo gallery">
         <button class="photo-card" type="button"><img src="images/714.png" alt="Family support photo 1"></button>
@@ -301,13 +414,7 @@
     referrerpolicy="strict-origin-when-cross-origin"
   ></iframe>
 
-  <div
-    class="lightbox"
-    id="lightbox"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Photo viewer"
-  >
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <button class="close" type="button" aria-label="Close photo">×</button>
     <img id="largePhoto" src="" alt="Expanded family support photo">
   </div>
@@ -320,6 +427,54 @@
     const status = document.getElementById('musicStatus');
     const lightbox = document.getElementById('lightbox');
     const largePhoto = document.getElementById('largePhoto');
+
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+
+    function addChatMessage(text, type) {
+      const message = document.createElement('div');
+      message.className = `chat-message ${type}`;
+      message.textContent = text;
+      chatMessages.appendChild(message);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function getNonprofitReply(question) {
+      const text = question.toLowerCase();
+
+      if (text.includes('mission') || text.includes('about') || text.includes('purpose')) {
+        return 'Our goal is to support families and help connect them with useful community resources. Update this answer with your nonprofit’s exact mission.';
+      }
+
+      if (text.includes('volunteer') || text.includes('help')) {
+        return 'Thank you for wanting to help! Add your volunteer signup link or contact information here so visitors know how to get involved.';
+      }
+
+      if (text.includes('donat') || text.includes('give')) {
+        return 'Thank you for considering a donation. Add your nonprofit’s secure donation link here.';
+      }
+
+      if (text.includes('program') || text.includes('service') || text.includes('resource')) {
+        return 'Please add details about your nonprofit’s programs and family services here.';
+      }
+
+      return 'Thanks for reaching out. This demo can answer basic questions about the nonprofit. Try asking about the mission, programs, volunteering, or donations.';
+    }
+
+    chatForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const question = chatInput.value.trim();
+
+      if (!question) return;
+
+      addChatMessage(question, 'user');
+      chatInput.value = '';
+
+      window.setTimeout(() => {
+        addChatMessage(getNonprofitReply(question), 'bot');
+      }, 350);
+    });
 
     document.getElementById('enterGallery').addEventListener('click', () => {
       landing.classList.add('hidden');
