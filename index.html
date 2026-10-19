@@ -2,64 +2,277 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171717">
   <title>Family Support Photos</title>
-
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 30px 16px;
-      color: white;
-      font-family: Arial, sans-serif;
+      color: #f7f4f4;
+      background: #202020;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .screen { min-height: 100vh; }
+    .hidden { display: none !important; }
+    .landing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 18px;
       text-align: center;
-      background: linear-gradient(145deg, #191919, #484442, #1c1b1b);
     }
-
-    h1 { text-shadow: 0 3px 15px #000; }
-
-    a {
+    .landing h1 { margin: 0 0 10px; font-size: clamp(2rem, 6vw, 3.2rem); }
+    .landing p { color: #d2cccc; margin: 0 0 24px; }
+    .first-photo {
+      display: block;
+      width: min(78vw, 440px);
+      aspect-ratio: 4 / 3;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111;
+      border: 3px solid #ef3939;
+      border-radius: 18px;
+      box-shadow: 0 14px 45px #0009;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .first-photo:hover,
+    .first-photo:focus-visible {
+      transform: scale(1.025);
+      box-shadow: 0 18px 55px #ef393955;
+      outline: none;
+    }
+    .first-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .tap-note {
+      margin-top: 18px !important;
+      color: #ffaaaa !important;
+      font-weight: 700;
+    }
+    .gallery {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 42px 0 60px;
+      text-align: center;
+    }
+    .gallery h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+    }
+    .subtitle {
+      color: #d2cccc;
+      margin: 10px 0 22px;
+      font-size: 1.05rem;
+    }
+    .home-button {
       display: inline-block;
-      margin: 10px;
-      padding: 10px 18px;
-      border-radius: 24px;
-      color: white;
-      background: #c91d26;
+      padding: 12px 22px;
+      color: #fff;
+      background: #ef3939;
+      border: 0;
+      border-radius: 999px;
       text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 5px 18px #ef393944;
     }
-
+    .hint { color: #c2bcbc; margin: 25px 0 18px; }
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      width: min(100%, 1000px);
-      margin: 28px auto;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-top: 16px;
     }
-
-    .photo-grid img {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-      border: 2px solid #c91d26;
+    .photo-card {
+      display: block;
+      padding: 0;
+      border: 2px solid #ffffff20;
       border-radius: 14px;
-      background: #292929;
+      overflow: hidden;
+      background: #111;
+      cursor: pointer;
+      aspect-ratio: 4 / 3;
+      transition: transform .22s, border-color .22s, box-shadow .22s;
     }
-
-    .note { color: #ddd; }
+    .photo-card:hover,
+    .photo-card:focus-visible {
+      transform: translateY(-4px);
+      border-color: #ef3939;
+      box-shadow: 0 12px 28px #0008;
+      outline: none;
+    }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .music-note {
+      min-height: 24px;
+      margin: 22px 0 0;
+      color: #ffb0b0;
+      font-size: .95rem;
+    }
+    #musicPlayer {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      left: -20px;
+      bottom: 0;
+      opacity: 0;
+      pointer-events: none;
+      border: 0;
+    }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #000e;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: min(95vw, 1100px);
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 12px 50px #000;
+    }
+    .close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      border: 0;
+      background: #ef3939;
+      color: white;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 27px;
+      cursor: pointer;
+    }
+    @media (max-width: 540px) {
+      .gallery { padding-top: 32px; }
+      .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+      .photo-card { border-radius: 10px; }
+    }
   </style>
 </head>
-
 <body>
-  <h1>Family Support Photos</h1>
-  <p class="note">Add your pictures in the photo grid below.</p>
-  <a href="index.html">Back to Home</a>
+  <main>
+    <!-- First screen: only the first picture appears here. -->
+    <section class="screen landing" id="landing">
+      <h1>Family Support</h1>
+      <p>Tap the first picture to open the photo gallery.</p>
 
-  <div class="photo-grid">
-    <!-- Add each picture here, replacing the filename with your image name:
-    <img src="your-photo.jpg" alt="Family support photo">
-    -->
+      <button
+        class="first-photo"
+        id="enterGallery"
+        type="button"
+        aria-label="Open all family support photos and play music"
+      >
+        <img src="images/714.png" alt="Tap to open the family support photo gallery">
+      </button>
+
+      <p class="tap-note">Tap this picture to see all the photos and hear the music</p>
+    </section>
+
+    <!-- Second screen: all photos stay hidden until the first picture is clicked. -->
+    <section class="screen gallery hidden" id="gallery">
+      <h2>Family Support Photos</h2>
+      <p class="subtitle">Add your pictures to the photo grid below.</p>
+      <button class="home-button" id="backHome" type="button">Back to Home</button>
+      <p class="hint">Your photos are below. Tap a picture to view it larger.</p>
+
+      <div class="photo-grid" aria-label="Family support photo gallery">
+        <button class="photo-card" type="button"><img src="images/714.png" alt="Family support photo 1"></button>
+        <button class="photo-card" type="button"><img src="images/713.jpg" alt="Family support photo 2"></button>
+        <button class="photo-card" type="button"><img src="images/712.jpg" alt="Family support photo 3"></button>
+        <button class="photo-card" type="button"><img src="images/710.png" alt="Family support photo 4"></button>
+        <button class="photo-card" type="button"><img src="images/707.jpg" alt="Family support photo 5"></button>
+        <button class="photo-card" type="button"><img src="images/706.jpg" alt="Family support photo 6"></button>
+        <button class="photo-card" type="button"><img src="images/705.jpg" alt="Family support photo 7"></button>
+        <button class="photo-card" type="button"><img src="images/704.png" alt="Family support photo 8"></button>
+        <button class="photo-card" type="button"><img src="images/703.jpg" alt="Family support photo 9"></button>
+        <button class="photo-card" type="button"><img src="images/690.jpg" alt="Family support photo 10"></button>
+      </div>
+
+      <p class="music-note" id="musicStatus" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <!-- Hidden YouTube player: music plays in the background with no visible video. -->
+  <iframe
+    id="musicPlayer"
+    title="Background music"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="close" type="button" aria-label="Close photo">×</button>
+    <img id="largePhoto" src="" alt="Expanded family support photo">
   </div>
+
+  <script>
+    const VIDEO_ID = 'YPsVWworsbc'; // YouTube music link you shared earlier
+    const landing = document.getElementById('landing');
+    const gallery = document.getElementById('gallery');
+    const player = document.getElementById('musicPlayer');
+    const status = document.getElementById('musicStatus');
+    const lightbox = document.getElementById('lightbox');
+    const largePhoto = document.getElementById('largePhoto');
+
+    document.getElementById('enterGallery').addEventListener('click', () => {
+      // Clicking the first picture reveals the gallery and starts the music.
+      landing.classList.add('hidden');
+      gallery.classList.remove('hidden');
+
+      player.src =
+        `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlist=${VIDEO_ID}&controls=0&modestbranding=1&playsinline=1&rel=0`;
+
+      status.textContent = 'Music is playing in the background.';
+    });
+
+    document.getElementById('backHome').addEventListener('click', () => {
+      player.src = '';
+      status.textContent = '';
+      gallery.classList.add('hidden');
+      landing.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.querySelectorAll('.photo-card').forEach(card => {
+      card.addEventListener('click', () => {
+        largePhoto.src = card.querySelector('img').src;
+        lightbox.classList.add('open');
+      });
+    });
+
+    function closePhoto() {
+      lightbox.classList.remove('open');
+    }
+
+    document.querySelector('.close').addEventListener('click', closePhoto);
+
+    lightbox.addEventListener('click', event => {
+      if (event.target === lightbox) closePhoto();
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closePhoto();
+    });
+  </script>
 </body>
 </html>
