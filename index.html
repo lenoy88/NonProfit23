@@ -22,30 +22,30 @@
       overflow: hidden;
       pointer-events: none;
       z-index: 0;
-      opacity: .52;
+      opacity: .38;
     }
 
     .floating-words span {
       position: absolute;
       top: -12%;
-      color: #ff1744;
-      -webkit-text-stroke: .8px #a80020;
+      color: #e33a54;
+      -webkit-text-stroke: .5px #8c0f25;
       font-size: clamp(1rem, 2.5vw, 2rem);
       font-weight: 900;
       letter-spacing: 2px;
       white-space: nowrap;
-      text-shadow: 0 1px 2px #6d0012;
-      animation: scrollDown 36s linear infinite;
+      text-shadow: none;
+      animation: scrollDown 28s linear infinite;
     }
 
     .floating-words span:nth-child(1) { left: 5%; animation-delay: 0s; }
-    .floating-words span:nth-child(2) { left: 70%; animation-delay: -4.5s; }
-    .floating-words span:nth-child(3) { left: 12%; animation-delay: -9s; }
-    .floating-words span:nth-child(4) { left: 76%; animation-delay: -13.5s; }
-    .floating-words span:nth-child(5) { left: 43%; animation-delay: -18s; }
-    .floating-words span:nth-child(6) { left: 52%; animation-delay: -22.5s; }
-    .floating-words span:nth-child(7) { left: 3%; animation-delay: -27s; }
-    .floating-words span:nth-child(8) { left: 79%; animation-delay: -31.5s; }
+    .floating-words span:nth-child(2) { left: 70%; animation-delay: -3.5s; }
+    .floating-words span:nth-child(3) { left: 12%; animation-delay: -7s; }
+    .floating-words span:nth-child(4) { left: 76%; animation-delay: -10.5s; }
+    .floating-words span:nth-child(5) { left: 43%; animation-delay: -14s; }
+    .floating-words span:nth-child(6) { left: 52%; animation-delay: -17.5s; }
+    .floating-words span:nth-child(7) { left: 3%; animation-delay: -21s; }
+    .floating-words span:nth-child(8) { left: 79%; animation-delay: -24.5s; }
 
     @keyframes scrollDown {
       0% { transform: translateY(-10vh); opacity: 0; }
@@ -233,12 +233,10 @@
 
     @media (max-width: 540px) {
       .gallery { padding-top: 32px; }
-
       .photo-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 11px;
       }
-
       .photo-card { border-radius: 10px; }
     }
   </style>
@@ -256,6 +254,7 @@
   </div>
 
   <main>
+    <!-- First screen: only the first picture appears here. -->
     <section class="screen landing" id="landing">
       <h1>Family Support</h1>
       <p>Tap the first picture to open the photo gallery.</p>
@@ -270,6 +269,7 @@
       <p class="tap-note">Tap this picture to see all the photos and hear the music</p>
     </section>
 
+    <!-- Second screen: all photos appear after the first picture is clicked. -->
     <section class="screen gallery hidden" id="gallery">
       <h2>Family Support Photos</h2>
       <p class="subtitle">Add your pictures to the photo grid below.</p>
@@ -293,6 +293,7 @@
     </section>
   </main>
 
+  <!-- Hidden YouTube player: background music plays with no visible video. -->
   <iframe
     id="musicPlayer"
     title="Background music"
@@ -300,7 +301,13 @@
     referrerpolicy="strict-origin-when-cross-origin"
   ></iframe>
 
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div
+    class="lightbox"
+    id="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Photo viewer"
+  >
     <button class="close" type="button" aria-label="Close photo">×</button>
     <img id="largePhoto" src="" alt="Expanded family support photo">
   </div>
