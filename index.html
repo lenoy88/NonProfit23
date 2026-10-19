@@ -5,17 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#171717">
   <title>Family Support Photos</title>
+
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; color: #f7f4f4; background: #3b3b3b; font-family: Arial, Helvetica, sans-serif; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #f7f4f4;
+      background: #3b3b3b;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
     .floating-words {
       position: fixed;
       inset: 0;
       overflow: hidden;
       pointer-events: none;
       z-index: 0;
-      opacity: 1;
     }
+
     .floating-words span {
       position: absolute;
       top: -12%;
@@ -25,9 +34,9 @@
       font-weight: 900;
       letter-spacing: 2px;
       white-space: nowrap;
-      text-shadow: none;
       animation: scrollDown 28s linear infinite;
     }
+
     .floating-words span:nth-child(1) { left: 5%; animation-delay: 0s; }
     .floating-words span:nth-child(2) { left: 70%; animation-delay: -3.5s; }
     .floating-words span:nth-child(3) { left: 12%; animation-delay: -7s; }
@@ -36,47 +45,176 @@
     .floating-words span:nth-child(6) { left: 52%; animation-delay: -17.5s; }
     .floating-words span:nth-child(7) { left: 3%; animation-delay: -21s; }
     .floating-words span:nth-child(8) { left: 79%; animation-delay: -24.5s; }
+
     @keyframes scrollDown {
       0% { transform: translateY(-10vh); opacity: 0; }
       10% { opacity: 1; }
       90% { opacity: .9; }
       100% { transform: translateY(120vh); opacity: 0; }
     }
+
     main { position: relative; z-index: 1; }
     .screen { min-height: 100vh; }
     .hidden { display: none !important; }
-    .landing { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 18px; text-align: center; }
-    .landing h1 { margin: 0 0 10px; color: #d6d6d6; font-size: clamp(2rem, 6vw, 3.2rem); text-shadow: none; }
-    .landing p { color: #d2cccc; margin: 0 0 24px; }
-    .first-photo { display: block; width: min(78vw, 440px); aspect-ratio: 4 / 3; padding: 0; overflow: hidden; cursor: pointer; background: #111; border: 3px solid #ef3939; border-radius: 18px; box-shadow: 0 14px 45px #0009; transition: transform .2s, box-shadow .2s; }
-    .first-photo:hover, .first-photo:focus-visible { transform: scale(1.025); box-shadow: 0 18px 55px #ef393955; outline: none; }
-    .first-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .tap-note { margin-top: 18px !important; color: #ffaaaa !important; font-weight: 700; }
-    .gallery { width: min(1100px, 92%); margin: 0 auto; padding: 42px 0 60px; text-align: center; }
-    .gallery h2 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; }
-    .subtitle { color: #d2cccc; margin: 10px 0 22px; font-size: 1.05rem; }
-    .home-button { display: inline-block; padding: 12px 22px; color: #fff; background: #ef3939; border: 0; border-radius: 999px; text-decoration: none; font-weight: 700; cursor: pointer; box-shadow: 0 5px 18px #ef393944; }
+
+    .landing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 18px;
+      text-align: center;
+    }
+
+    .landing h1 {
+      margin: 0 0 10px;
+      color: #d6d6d6;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+    }
+
+    .landing p { color: #d2cccc; }
+
+    .first-photo {
+      display: block;
+      width: min(78vw, 440px);
+      aspect-ratio: 4 / 3;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111;
+      border: 3px solid #ef3939;
+      border-radius: 18px;
+      box-shadow: 0 14px 45px #0009;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .first-photo:hover,
+    .first-photo:focus-visible {
+      transform: scale(1.025);
+      box-shadow: 0 18px 55px #ef393955;
+      outline: none;
+    }
+
+    .first-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tap-note {
+      margin-top: 18px;
+      color: #ffaaaa !important;
+      font-weight: 700;
+    }
+
+    .gallery {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 42px 0 60px;
+      text-align: center;
+    }
+
+    .gallery h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    .subtitle { color: #d2cccc; margin: 10px 0 22px; }
+
+    .home-button {
+      display: inline-block;
+      padding: 12px 22px;
+      color: #fff;
+      background: #ef3939;
+      border: 0;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .hint { color: #c2bcbc; margin: 25px 0 18px; }
-    .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-top: 16px; }
-    .photo-card { display: block; padding: 0; border: 2px solid #ffffff20; border-radius: 14px; overflow: hidden; background: #111; cursor: pointer; aspect-ratio: 4 / 3; transition: transform .22s, border-color .22s, box-shadow .22s; }
-    .photo-card:hover, .photo-card:focus-visible { transform: translateY(-4px); border-color: #ef3939; box-shadow: 0 12px 28px #0008; outline: none; }
-    .photo-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .photo-card {
+      position: relative;
+      padding: 0 0 12px;
+      overflow: hidden;
+      background: #171717;
+      border: 2px solid #ffffff20;
+      border-radius: 14px;
+    }
+
+    .photo-card.flyer {
+      border: 3px solid #ff2020;
+      box-shadow: 0 0 22px #ff202077;
+    }
+
+    .photo-open {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      padding: 0;
+      border: 0;
+      background: #111;
+      cursor: pointer;
+    }
+
+    .photo-open img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .flyer-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 7px 10px;
+      color: white;
+      background: #e00000;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .download-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 9px 15px;
+      color: white;
+      background: #ef3939;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .download-link:hover { background: #c90000; }
+
     .chat-box {
       width: min(100%, 620px);
       margin: 26px auto;
       padding: 18px;
       text-align: left;
-      color: #fff;
+      color: white;
       background: #292929;
       border: 1px solid #ef3939;
       border-radius: 14px;
-      box-shadow: 0 8px 24px #0005;
     }
-    .chat-box h3 { margin: 0 0 6px; color: #fff; font-size: 1.2rem; }
-    .chat-intro { margin: 0 0 14px; color: #dedede; font-size: .92rem; }
-    .contact-line { margin: 0 0 14px; color: #dedede; font-size: .95rem; }
-    .contact-line a { color: #ff7777; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
-    .contact-line a:hover, .contact-line a:focus-visible { color: #ffc2c2; }
+
+    .chat-box h3 { margin: 0 0 6px; }
+    .chat-intro, .contact-line { color: #dedede; }
+    .contact-line a { color: #ff7777; font-weight: 700; }
+
     .chat-messages {
       display: flex;
       flex-direction: column;
@@ -87,178 +225,281 @@
       background: #1d1d1d;
       border-radius: 10px;
     }
+
     .chat-message {
       max-width: 88%;
       padding: 9px 12px;
       border-radius: 12px;
       line-height: 1.4;
-      font-size: .92rem;
       overflow-wrap: anywhere;
     }
-    .chat-message.bot { align-self: flex-start; background: #414141; color: #fff; }
-    .chat-message.user { align-self: flex-end; background: #ef3939; color: #fff; }
+
+    .chat-message.bot { align-self: flex-start; background: #414141; }
+    .chat-message.user { align-self: flex-end; background: #ef3939; }
+
     .chat-form { display: flex; gap: 8px; margin-top: 12px; }
+
     .chat-form input {
       flex: 1;
       min-width: 0;
       padding: 11px 12px;
-      color: #222;
-      background: #fff;
       border: 1px solid #bbb;
       border-radius: 8px;
       font: inherit;
     }
+
     .chat-form button {
       padding: 10px 16px;
-      color: #fff;
+      color: white;
       background: #ef3939;
       border: 0;
       border-radius: 8px;
       font-weight: 700;
       cursor: pointer;
     }
+
     .chat-note { display: block; margin-top: 9px; color: #c5c5c5; font-size: .78rem; }
-    .music-note { min-height: 24px; margin: 22px 0 0; color: #ffb0b0; font-size: .95rem; }
-    #musicPlayer { position: fixed; width: 1px; height: 1px; left: -20px; bottom: 0; opacity: 0; pointer-events: none; border: 0; }
-    .lightbox { position: fixed; inset: 0; z-index: 5; display: none; align-items: center; justify-content: center; padding: 20px; background: #000e; }
+    .music-note { min-height: 24px; margin-top: 22px; color: #ffb0b0; }
+
+    #musicPlayer {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      left: -20px;
+      bottom: 0;
+      opacity: 0;
+      pointer-events: none;
+      border: 0;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #000e;
+    }
+
     .lightbox.open { display: flex; }
-    .lightbox img { max-width: min(95vw, 1100px); max-height: 85vh; object-fit: contain; border-radius: 10px; box-shadow: 0 12px 50px #000; }
-    .close { position: absolute; top: 18px; right: 22px; border: 0; background: #ef3939; color: white; border-radius: 50%; width: 44px; height: 44px; font-size: 27px; cursor: pointer; }
-    @media (max-width: 540px) { .gallery { padding-top: 32px; } .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; } .photo-card { border-radius: 10px; } }
+
+    .lightbox img {
+      max-width: min(95vw, 1100px);
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      width: 44px;
+      height: 44px;
+      color: white;
+      background: #ef3939;
+      border: 0;
+      border-radius: 50%;
+      font-size: 27px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 540px) {
+      .gallery { padding-top: 32px; }
+      .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+    }
   </style>
 </head>
+
 <body>
   <div class="floating-words" aria-hidden="true">
-    <span>LOVE</span>
-    <span>FAMILY</span>
-    <span>HOPE</span>
-    <span>SUPPORT</span>
-    <span>STRENGTH</span>
-    <span>UNITY</span>
-    <span>FAITH</span>
-    <span>TOGETHER</span>
+    <span>LOVE</span><span>FAMILY</span><span>HOPE</span><span>SUPPORT</span>
+    <span>STRENGTH</span><span>UNITY</span><span>FAITH</span><span>TOGETHER</span>
   </div>
+
   <main>
     <section class="screen landing" id="landing">
       <h1>Family Support</h1>
       <p>Tap the first picture to open the photo gallery.</p>
-      <button class="first-photo" id="enterGallery" type="button" aria-label="Open all family support photos and play music">
-        <img src="images/714.png" alt="Tap to open the family support photo gallery">
+      <button class="first-photo" id="enterGallery" type="button"
+              aria-label="Open the family support photo gallery and play music">
+        <img src="images/700.jpg" alt="Family Support main picture">
       </button>
       <p class="tap-note">Tap this picture to see all the photos and hear the music</p>
     </section>
 
     <section class="screen gallery hidden" id="gallery">
       <h2>Family Support Photos</h2>
-      <p class="subtitle">Add your pictures to the photo grid below.</p>
+      <p class="subtitle">Tap a photo to see it larger, or download it below.</p>
       <button class="home-button" id="backHome" type="button">Back to Home</button>
-      <p class="hint">Your photos are below. Tap a picture to view it larger.</p>
-      <section class="chat-box" aria-label="Family support nonprofit information chat">
+
+      <section class="chat-box" aria-label="Family support nonprofit chat">
         <h3>Family Support Nonprofit Chat</h3>
         <p class="chat-intro">Ask about our mission, volunteering, or donations.</p>
-        <p class="contact-line">Need to reach him? Call <a href="tel:+13025078791">(302) 507-8791</a>.</p>
+        <p class="contact-line">
+          Need to reach him? Call <a href="tel:+13025078791">(302) 507-8791</a>.
+        </p>
         <div class="chat-messages" id="chatMessages" aria-live="polite">
           <div class="chat-message bot">Welcome! How can we help you support families today?</div>
         </div>
         <form class="chat-form" id="chatForm">
-          <input id="chatInput" type="text" placeholder="Type your question..." aria-label="Type your question" required>
+          <input id="chatInput" type="text" placeholder="Type your question..."
+                 aria-label="Type your question" required>
           <button type="submit">Send</button>
         </form>
         <small class="chat-note">This is an automated demo chat; messages do not reach nonprofit staff.</small>
       </section>
+
       <div class="photo-grid" aria-label="Family support photo gallery">
-        <button class="photo-card" type="button"><img src="images/714.png" alt="Family support photo 1"></button>
-        <button class="photo-card" type="button"><img src="images/713.jpg" alt="Family support photo 2"></button>
-        <button class="photo-card" type="button"><img src="images/712.jpg" alt="Family support photo 3"></button>
-        <button class="photo-card" type="button"><img src="images/710.png" alt="Family support photo 4"></button>
-        <button class="photo-card" type="button"><img src="images/707.jpg" alt="Family support photo 5"></button>
-        <button class="photo-card" type="button"><img src="images/706.jpg" alt="Family support photo 6"></button>
-        <button class="photo-card" type="button"><img src="images/705.jpg" alt="Family support photo 7"></button>
-        <button class="photo-card" type="button"><img src="images/704.png" alt="Family support photo 8"></button>
-        <button class="photo-card" type="button"><img src="images/703.jpg" alt="Family support photo 9"></button>
-        <button class="photo-card" type="button"><img src="images/690.jpg" alt="Family support photo 10"></button>
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/700.jpg" alt="Family support photo 1"></button>
+          <a class="download-link" href="images/700.jpg" download="700.jpg">Download 700.jpg</a>
+        </article>
+
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/702.jpg" alt="Family support photo 2"></button>
+          <a class="download-link" href="images/702.jpg" download="702.jpg">Download 702.jpg</a>
+        </article>
+
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/703.jpg" alt="Family support photo 3"></button>
+          <a class="download-link" href="images/703.jpg" download="703.jpg">Download 703.jpg</a>
+        </article>
+
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/704.jpg" alt="Family support photo 4"></button>
+          <a class="download-link" href="images/704.jpg" download="704.jpg">Download 704.jpg</a>
+        </article>
+
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/705.jpg" alt="Family support photo 5"></button>
+          <a class="download-link" href="images/705.jpg" download="705.jpg">Download 705.jpg</a>
+        </article>
+
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/706.jpg" alt="Family support photo 6"></button>
+          <a class="download-link" href="images/706.jpg" download="706.jpg">Download 706.jpg</a>
+        </article>
+
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/707.jpg" alt="Family support photo 7"></button>
+          <a class="download-link" href="images/707.jpg" download="707.jpg">Download 707.jpg</a>
+        </article>
+
+        <article class="photo-card">
+          <button class="photo-open" type="button"><img src="images/708.jpg" alt="Family support photo 8"></button>
+          <a class="download-link" href="images/708.jpg" download="708.jpg">Download 708.jpg</a>
+        </article>
+
+        <article class="photo-card flyer">
+          <span class="flyer-label">FEATURED FLYER</span>
+          <button class="photo-open" type="button"><img src="images/709.jpg" alt="Featured family support flyer 1"></button>
+          <a class="download-link" href="images/709.jpg" download="709.jpg">Download Flyer 709.jpg</a>
+        </article>
+
+        <article class="photo-card flyer">
+          <span class="flyer-label">FEATURED FLYER</span>
+          <button class="photo-open" type="button"><img src="images/710.jpg" alt="Featured family support flyer 2"></button>
+          <a class="download-link" href="images/710.jpg" download="710.jpg">Download Flyer 710.jpg</a>
+        </article>
       </div>
+
       <p class="music-note" id="musicStatus" aria-live="polite"></p>
     </section>
   </main>
 
-  <iframe id="musicPlayer" title="Background music" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <iframe id="musicPlayer" title="Background music"
+          allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <button class="close" type="button" aria-label="Close photo">×</button>
     <img id="largePhoto" src="" alt="Expanded family support photo">
   </div>
-  <script>
-    const VIDEO_ID = 'YPsVWworsbc';
-    const landing = document.getElementById('landing');
-    const gallery = document.getElementById('gallery');
-    const player = document.getElementById('musicPlayer');
-    const status = document.getElementById('musicStatus');
-    const lightbox = document.getElementById('lightbox');
-    const largePhoto = document.getElementById('largePhoto');
 
-    const chatForm = document.getElementById('chatForm');
-    const chatInput = document.getElementById('chatInput');
-    const chatMessages = document.getElementById('chatMessages');
+  <script>
+    const VIDEO_ID = "YPsVWworsbc";
+    const landing = document.getElementById("landing");
+    const gallery = document.getElementById("gallery");
+    const player = document.getElementById("musicPlayer");
+    const status = document.getElementById("musicStatus");
+    const lightbox = document.getElementById("lightbox");
+    const largePhoto = document.getElementById("largePhoto");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+    const chatMessages = document.getElementById("chatMessages");
 
     function addChatMessage(text, type) {
-      const message = document.createElement('div');
+      const message = document.createElement("div");
       message.className = `chat-message ${type}`;
       message.textContent = text;
       chatMessages.appendChild(message);
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function getNonprofitReply(question) {
+    function getReply(question) {
       const text = question.toLowerCase();
-      if (text.includes('mission') || text.includes('about') || text.includes('purpose')) {
-        return 'Our goal is to support families and help connect them with useful community resources. Update this answer with your nonprofit’s exact mission.';
+
+      if (text.includes("mission") || text.includes("about") || text.includes("purpose")) {
+        return "Our goal is to support families and connect them with useful community resources.";
       }
-      if (text.includes('volunteer') || text.includes('help')) {
-        return 'Thank you for wanting to help! Add your volunteer signup link or contact information here so visitors know how to get involved.';
+      if (text.includes("volunteer") || text.includes("help")) {
+        return "Thank you for wanting to help! Contact the nonprofit to learn about volunteering.";
       }
-      if (text.includes('donat') || text.includes('give')) {
-        return 'Thank you for considering a donation. Add your nonprofit’s secure donation link here.';
+      if (text.includes("donat") || text.includes("give")) {
+        return "Thank you for considering a donation. Contact the nonprofit for donation information.";
       }
-      if (text.includes('program') || text.includes('service') || text.includes('resource')) {
-        return 'Please add details about your nonprofit’s programs and family services here.';
+      if (text.includes("program") || text.includes("service") || text.includes("resource")) {
+        return "Please contact the nonprofit to learn about its programs and family services.";
       }
-      return 'Thanks for reaching out. This demo can answer basic questions about the nonprofit. Try asking about the mission, programs, volunteering, or donations.';
+      return "Thanks for reaching out. Try asking about the mission, programs, volunteering, or donations.";
     }
 
-    chatForm.addEventListener('submit', event => {
+    chatForm.addEventListener("submit", event => {
       event.preventDefault();
       const question = chatInput.value.trim();
       if (!question) return;
-      addChatMessage(question, 'user');
-      chatInput.value = '';
-      window.setTimeout(() => addChatMessage(getNonprofitReply(question), 'bot'), 350);
+
+      addChatMessage(question, "user");
+      chatInput.value = "";
+      setTimeout(() => addChatMessage(getReply(question), "bot"), 350);
     });
 
-    document.getElementById('enterGallery').addEventListener('click', () => {
-      landing.classList.add('hidden');
-      gallery.classList.remove('hidden');
-      player.src = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlist=${VIDEO_ID}&controls=0&modestbranding=1&playsinline=1&rel=0`;
-      status.textContent = 'Music is playing in the background.';
+    document.getElementById("enterGallery").addEventListener("click", () => {
+      landing.classList.add("hidden");
+      gallery.classList.remove("hidden");
+      player.src =
+        `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlist=${VIDEO_ID}&controls=0&playsinline=1&rel=0`;
+      status.textContent = "Music is playing in the background.";
     });
 
-    document.getElementById('backHome').addEventListener('click', () => {
-      player.src = '';
-      status.textContent = '';
-      gallery.classList.add('hidden');
-      landing.classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById("backHome").addEventListener("click", () => {
+      player.src = "";
+      status.textContent = "";
+      gallery.classList.add("hidden");
+      landing.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
-    document.querySelectorAll('.photo-card').forEach(card => {
-      card.addEventListener('click', () => {
-        largePhoto.src = card.querySelector('img').src;
-        lightbox.classList.add('open');
+    document.querySelectorAll(".photo-open").forEach(button => {
+      button.addEventListener("click", () => {
+        largePhoto.src = button.querySelector("img").src;
+        lightbox.classList.add("open");
       });
     });
-    function closePhoto() { lightbox.classList.remove('open'); }
-    document.querySelector('.close').addEventListener('click', closePhoto);
-    lightbox.addEventListener('click', event => { if (event.target === lightbox) closePhoto(); });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') closePhoto(); });
+
+    function closePhoto() {
+      lightbox.classList.remove("open");
+    }
+
+    document.querySelector(".close").addEventListener("click", closePhoto);
+    lightbox.addEventListener("click", event => {
+      if (event.target === lightbox) closePhoto();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closePhoto();
+    });
   </script>
 </body>
 </html>
