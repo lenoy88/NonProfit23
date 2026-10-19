@@ -14,13 +14,13 @@
       overflow: hidden;
       pointer-events: none;
       z-index: 0;
-      opacity: .38;
+      opacity: .68;
     }
     .floating-words span {
       position: absolute;
       top: -12%;
-      color: #e33a54;
-      -webkit-text-stroke: .5px #8c0f25;
+      color: #ff334f;
+      -webkit-text-stroke: .5px #a10b23;
       font-size: clamp(1rem, 2.5vw, 2rem);
       font-weight: 900;
       letter-spacing: 2px;
@@ -139,7 +139,6 @@
     <span>TOGETHER</span>
   </div>
   <main>
-    <!-- First screen: only the first picture appears here. -->
     <section class="screen landing" id="landing">
       <h1>Family Support</h1>
       <p>Tap the first picture to open the photo gallery.</p>
@@ -149,7 +148,6 @@
       <p class="tap-note">Tap this picture to see all the photos and hear the music</p>
     </section>
 
-    <!-- Second screen: all photos stay hidden until the first picture is clicked. -->
     <section class="screen gallery hidden" id="gallery">
       <h2>Family Support Photos</h2>
       <p class="subtitle">Add your pictures to the photo grid below.</p>
@@ -184,14 +182,13 @@
     </section>
   </main>
 
-  <!-- Hidden YouTube player: music plays in the background with no visible video. -->
   <iframe id="musicPlayer" title="Background music" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <button class="close" type="button" aria-label="Close photo">×</button>
     <img id="largePhoto" src="" alt="Expanded family support photo">
   </div>
   <script>
-    const VIDEO_ID = 'YPsVWworsbc'; // YouTube music link shared earlier
+    const VIDEO_ID = 'YPsVWworsbc';
     const landing = document.getElementById('landing');
     const gallery = document.getElementById('gallery');
     const player = document.getElementById('musicPlayer');
@@ -238,7 +235,6 @@
     });
 
     document.getElementById('enterGallery').addEventListener('click', () => {
-      // The click both reveals the gallery and starts audio, satisfying browser autoplay rules.
       landing.classList.add('hidden');
       gallery.classList.remove('hidden');
       player.src = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&loop=1&playlist=${VIDEO_ID}&controls=0&modestbranding=1&playsinline=1&rel=0`;
