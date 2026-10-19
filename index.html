@@ -48,19 +48,19 @@
     .landing { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 18px; text-align: center; }
     .landing h1 { margin: 0 0 10px; color: #d6d6d6; font-size: clamp(2rem, 6vw, 3.2rem); text-shadow: none; }
     .landing p { color: #d2cccc; margin: 0 0 24px; }
-    .first-photo { display: block; width: min(78vw, 440px); aspect-ratio: 4 / 3; padding: 0; overflow: hidden; cursor: pointer; background: #111; border: 3px solid #ef3939; border-radius: 18px; box-shadow: 0 14px 45px #0009; transition: transform .2s, box-shadow .2s; }
+    .first-photo { display: block; width: min(92vw, 720px); aspect-ratio: auto; padding: 0; overflow: hidden; cursor: pointer; background: #111; border: 3px solid #ef3939; border-radius: 18px; box-shadow: 0 14px 45px #0009; transition: transform .2s, box-shadow .2s; }
     .first-photo:hover, .first-photo:focus-visible { transform: scale(1.025); box-shadow: 0 18px 55px #ef393955; outline: none; }
-    .first-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .first-photo img { width: 100%; height: auto; max-height: 78vh; object-fit: contain; display: block; }
     .tap-note { margin-top: 18px !important; color: #ffaaaa !important; font-weight: 700; }
     .gallery { width: min(1100px, 92%); margin: 0 auto; padding: 42px 0 60px; text-align: center; }
     .gallery h2 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; }
     .subtitle { color: #d2cccc; margin: 10px 0 22px; font-size: 1.05rem; }
     .home-button { display: inline-block; padding: 12px 22px; color: #fff; background: #ef3939; border: 0; border-radius: 999px; text-decoration: none; font-weight: 700; cursor: pointer; box-shadow: 0 5px 18px #ef393944; }
     .hint { color: #c2bcbc; margin: 25px 0 18px; }
-    .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-top: 16px; }
-    .photo-card { display: block; padding: 0; border: 2px solid #ffffff20; border-radius: 14px; overflow: hidden; background: #111; cursor: pointer; aspect-ratio: 4 / 3; transition: transform .22s, border-color .22s, box-shadow .22s; }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 16px; }
+    .photo-card { display: block; padding: 0; border: 2px solid #ffffff20; border-radius: 14px; overflow: hidden; background: #111; cursor: pointer; transition: transform .22s, border-color .22s, box-shadow .22s; }
     .photo-card:hover, .photo-card:focus-visible { transform: translateY(-4px); border-color: #ef3939; box-shadow: 0 12px 28px #0008; outline: none; }
-    .photo-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .photo-card img { width: 100%; height: auto; display: block; object-fit: contain; }
     .chat-box {
       width: min(100%, 620px);
       margin: 26px auto;
@@ -124,7 +124,7 @@
     .lightbox.open { display: flex; }
     .lightbox img { max-width: min(95vw, 1100px); max-height: 85vh; object-fit: contain; border-radius: 10px; box-shadow: 0 12px 50px #000; }
     .close { position: absolute; top: 18px; right: 22px; border: 0; background: #ef3939; color: white; border-radius: 50%; width: 44px; height: 44px; font-size: 27px; cursor: pointer; }
-    @media (max-width: 540px) { .gallery { padding-top: 32px; } .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; } .photo-card { border-radius: 10px; } }
+    @media (max-width: 540px) { .gallery { padding-top: 32px; } .photo-grid { grid-template-columns: 1fr; gap: 11px; } .photo-card { border-radius: 10px; } }
   </style>
 </head>
 <body>
@@ -169,10 +169,12 @@
         <small class="chat-note">This is an automated demo chat; messages do not reach nonprofit staff.</small>
       </section>
       <div class="photo-grid" aria-label="Family support photo gallery">
+        <button class="photo-card" type="button"><img src="700.jpg" alt="Family Support logo"></button>
         <button class="photo-card" type="button"><img src="701.jpg" alt="Family support photo 1"></button>
         <button class="photo-card" type="button"><img src="703.jpg" alt="Family support photo 2"></button>
         <button class="photo-card" type="button"><img src="704.png" alt="Family support photo 3"></button>
         <button class="photo-card" type="button"><img src="705.jpg" alt="Family support photo 4"></button>
+        <button class="photo-card" type="button"><img src="706.jpg" alt="Family support photo 5"></button>
       </div>
       <p class="music-note" id="musicStatus" aria-live="polite"></p>
     </section>
