@@ -7,7 +7,14 @@
   <title>Family Support Photos</title>
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; color: #f7f4f4; background: #202020; font-family: Arial, Helvetica, sans-serif; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #f7f4f4;
+      background: #202020;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
     .floating-words {
       position: fixed;
@@ -15,18 +22,19 @@
       overflow: hidden;
       pointer-events: none;
       z-index: 0;
-      opacity: .22;
+      opacity: .52;
     }
 
     .floating-words span {
       position: absolute;
       top: -12%;
-      color: #ff7777;
+      color: #ff304d;
+      -webkit-text-stroke: .35px #ffe5e8;
       font-size: clamp(1rem, 2.5vw, 2rem);
       font-weight: 800;
       letter-spacing: 2px;
       white-space: nowrap;
-      text-shadow: 0 0 16px #ef393955;
+      text-shadow: 0 0 8px #ff173c, 0 0 20px #ff173c, 0 0 34px #ff173c, 1px 2px 3px #000;
       animation: scrollDown 36s linear infinite;
     }
 
@@ -59,8 +67,15 @@
       text-align: center;
     }
 
-    .landing h1 { margin: 0 0 10px; font-size: clamp(2rem, 6vw, 3.2rem); }
-    .landing p { color: #d2cccc; margin: 0 0 24px; }
+    .landing h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+    }
+
+    .landing p {
+      color: #d2cccc;
+      margin: 0 0 24px;
+    }
 
     .first-photo {
       display: block;
@@ -83,8 +98,18 @@
       outline: none;
     }
 
-    .first-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .tap-note { margin-top: 18px !important; color: #ffaaaa !important; font-weight: 700; }
+    .first-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tap-note {
+      margin-top: 18px !important;
+      color: #ffaaaa !important;
+      font-weight: 700;
+    }
 
     .gallery {
       width: min(1100px, 92%);
@@ -93,8 +118,17 @@
       text-align: center;
     }
 
-    .gallery h2 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; }
-    .subtitle { color: #d2cccc; margin: 10px 0 22px; font-size: 1.05rem; }
+    .gallery h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+    }
+
+    .subtitle {
+      color: #d2cccc;
+      margin: 10px 0 22px;
+      font-size: 1.05rem;
+    }
 
     .home-button {
       display: inline-block;
@@ -109,7 +143,10 @@
       box-shadow: 0 5px 18px #ef393944;
     }
 
-    .hint { color: #c2bcbc; margin: 25px 0 18px; }
+    .hint {
+      color: #c2bcbc;
+      margin: 25px 0 18px;
+    }
 
     .photo-grid {
       display: grid;
@@ -138,8 +175,19 @@
       outline: none;
     }
 
-    .photo-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
-    .music-note { min-height: 24px; margin: 22px 0 0; color: #ffb0b0; font-size: .95rem; }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .music-note {
+      min-height: 24px;
+      margin: 22px 0 0;
+      color: #ffb0b0;
+      font-size: .95rem;
+    }
 
     #musicPlayer {
       position: fixed;
@@ -189,7 +237,12 @@
 
     @media (max-width: 540px) {
       .gallery { padding-top: 32px; }
-      .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+
+      .photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+      }
+
       .photo-card { border-radius: 10px; }
     }
   </style>
@@ -207,38 +260,75 @@
   </div>
 
   <main>
+    <!-- First screen: only the first picture appears here. -->
     <section class="screen landing" id="landing">
       <h1>Family Support</h1>
       <p>Tap the first picture to open the photo gallery.</p>
-      <button class="first-photo" id="enterGallery" type="button" aria-label="Open all family support photos and play music">
-        <img src="images/714.png" alt="Tap to open the family support photo gallery">
+
+      <button
+        class="first-photo"
+        id="enterGallery"
+        type="button"
+        aria-label="Open all family support photos and play music"
+      >
+        <img
+          src="images/714.png"
+          alt="Tap to open the family support photo gallery"
+        >
       </button>
-      <p class="tap-note">Tap this picture to see all the photos and hear the music</p>
+
+      <p class="tap-note">
+        Tap this picture to see all the photos and hear the music
+      </p>
     </section>
 
+    <!-- Second screen: all photos stay hidden until the first picture is clicked. -->
     <section class="screen gallery hidden" id="gallery">
       <h2>Family Support Photos</h2>
       <p class="subtitle">Add your pictures to the photo grid below.</p>
-      <button class="home-button" id="backHome" type="button">Back to Home</button>
+      <button class="home-button" id="backHome" type="button">
+        Back to Home
+      </button>
       <p class="hint">Your photos are below. Tap a picture to view it larger.</p>
 
       <div class="photo-grid" aria-label="Family support photo gallery">
-        <button class="photo-card" type="button"><img src="images/714.png" alt="Family support photo 1"></button>
-        <button class="photo-card" type="button"><img src="images/713.jpg" alt="Family support photo 2"></button>
-        <button class="photo-card" type="button"><img src="images/712.jpg" alt="Family support photo 3"></button>
-        <button class="photo-card" type="button"><img src="images/710.png" alt="Family support photo 4"></button>
-        <button class="photo-card" type="button"><img src="images/707.jpg" alt="Family support photo 5"></button>
-        <button class="photo-card" type="button"><img src="images/706.jpg" alt="Family support photo 6"></button>
-        <button class="photo-card" type="button"><img src="images/705.jpg" alt="Family support photo 7"></button>
-        <button class="photo-card" type="button"><img src="images/704.png" alt="Family support photo 8"></button>
-        <button class="photo-card" type="button"><img src="images/703.jpg" alt="Family support photo 9"></button>
-        <button class="photo-card" type="button"><img src="images/690.jpg" alt="Family support photo 10"></button>
+        <button class="photo-card" type="button">
+          <img src="images/714.png" alt="Family support photo 1">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/713.jpg" alt="Family support photo 2">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/712.jpg" alt="Family support photo 3">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/710.png" alt="Family support photo 4">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/707.jpg" alt="Family support photo 5">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/706.jpg" alt="Family support photo 6">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/705.jpg" alt="Family support photo 7">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/704.png" alt="Family support photo 8">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/703.jpg" alt="Family support photo 9">
+        </button>
+        <button class="photo-card" type="button">
+          <img src="images/690.jpg" alt="Family support photo 10">
+        </button>
       </div>
 
       <p class="music-note" id="musicStatus" aria-live="polite"></p>
     </section>
   </main>
 
+  <!-- Hidden YouTube player: music plays in the background with no visible video. -->
   <iframe
     id="musicPlayer"
     title="Background music"
@@ -246,7 +336,13 @@
     referrerpolicy="strict-origin-when-cross-origin"
   ></iframe>
 
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div
+    class="lightbox"
+    id="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Photo viewer"
+  >
     <button class="close" type="button" aria-label="Close photo">×</button>
     <img id="largePhoto" src="" alt="Expanded family support photo">
   </div>
@@ -290,9 +386,11 @@
     }
 
     document.querySelector('.close').addEventListener('click', closePhoto);
+
     lightbox.addEventListener('click', event => {
       if (event.target === lightbox) closePhoto();
     });
+
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape') closePhoto();
     });
